@@ -1,4 +1,4 @@
-package by.mikhalachkin.servlet;
+package by.mikhalachkin.servlet.controller;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

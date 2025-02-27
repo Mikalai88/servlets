@@ -1,6 +1,7 @@
-package by.mikhalachkin.servlet;
+package by.mikhalachkin.servlet.controller;
 
 import by.mikhalachkin.servlet.model.User;
+import by.mikhalachkin.servlet.service.AuthService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +23,9 @@ public class LoginServlet extends HttpServlet {
 
     PrintWriter out = resp.getWriter();
 
-    if ("Nikolai".equalsIgnoreCase(login) && "qwert".equalsIgnoreCase(password)) {
+    AuthService authService = new AuthService();
+
+    if (authService.authenticate(login, password)) {
       out.println("<html>");
       out.println("<head>");
       out.println("<title>Servlet LoginServlet</title>");

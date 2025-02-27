@@ -1,14 +1,15 @@
-package by.mikhalachkin.servlet;
+package by.mikhalachkin.servlet.controller;
 
-import by.mikhalachkin.servlet.model.User;
+import by.mikhalachkin.servlet.model.Event;
+import by.mikhalachkin.servlet.service.EventService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 public class EventsServlet extends HttpServlet {
   @Override
@@ -17,34 +18,24 @@ public class EventsServlet extends HttpServlet {
     resp.setContentType("text/html");
     PrintWriter out = resp.getWriter();
 
-    User user = (User) req.getSession().getAttribute("user");
+    EventService eventService = new EventService();
 
-    HttpSession session = req.getSession();
-    if (session.getAttribute("user") != null) {
-      out.println("<html>");
-      out.println("<head>");
-      out.println("<title>Servlet Events</title>");
-      out.println("</head>");
-      out.println("<body>");
-      out.println("<h1>Events:</h1>");
-      out.println("Hello user: " + user.getLogin() + "<br>");
-      out.println("Event 1 <br>");
-      out.println("Event 2 <br>");
-      out.println("Event 3 <br>");
-      out.println("Event 4 <br>");
-      out.println("Event 5 <br>");
-      out.println("</body>");
-      out.println("</html>");
-    } else {
-      out.println("<html>");
-      out.println("<head>");
-      out.println("<title>Servlet LoginServlet</title>");
-      out.println("</head>");
-      out.println("<body>");
-      out.println("Access denied");
-      out.println("</body>");
-      out.println("</html>");
+    List<Event> events = eventService.getEvents();
+
+    out.println("<html>");
+    out.println("<head>");
+    out.println("<title>Servlet Events</title>");
+    out.println("</head>");
+    out.println("<body>");
+    out.println("<h1>Events:</h1>");
+
+    for (Event event : events) {
+      out.println(event.getName() + " at " + event.getDate() + "<br>");
     }
+
+    out.println("</body>");
+    out.println("</html>");
+
     out.close();
   }
 }

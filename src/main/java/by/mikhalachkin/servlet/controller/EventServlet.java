@@ -1,5 +1,7 @@
-package by.mikhalachkin.servlet;
+package by.mikhalachkin.servlet.controller;
 
+import by.mikhalachkin.servlet.model.Event;
+import by.mikhalachkin.servlet.service.EventService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,8 +13,10 @@ import java.io.PrintWriter;
 public class EventServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    String id = req.getParameter("id");
-    String name = req.getParameter("name");
+    Integer id = Integer.parseInt(req.getParameter("id"));
+
+    EventService eventService = new EventService();
+    Event event = eventService.getEvent(id);
 
     resp.setContentType("text/html");
     PrintWriter out = resp.getWriter();
@@ -21,7 +25,7 @@ public class EventServlet extends HttpServlet {
     out.println("<title>Servlet Event</title>");
     out.println("</head>");
     out.println("<body>");
-    out.println("Event with name: " + name + " and id: " + id);
+    out.println(event.toString());
     out.println("</body>");
     out.println("</html>");
     out.close();
